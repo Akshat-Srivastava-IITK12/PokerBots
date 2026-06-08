@@ -25,7 +25,7 @@ class TeamShauryaBot:
         elif card=='J' and history=='p': return 'b' if random.random()<0.33 else 'p'
         elif card=='J' and history=='pb': return 'p'
         elif card=='Q' and history=='': return 'b' if random.random()<0.5 else 'p'
-        elif card=='Q' and history=='b': return 'b' if random.random()<0.33 else 'p'
+        elif card=='Q' and history=='b': return 'b' if random.random()<0.2 else 'p'
         elif card=='Q' and history=='p': return 'b' if random.random()<0.67 else 'p'
-        elif card=='Q' and history=='pb': return 'b' if random.random()<0.33 else 'p'
+        elif card=='Q' and history=='pb': return 'b' if random.random()<0.2 else 'p'
        
