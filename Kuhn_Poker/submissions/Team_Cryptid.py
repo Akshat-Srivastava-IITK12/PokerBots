@@ -1,6 +1,6 @@
 import random
 
-class Cryptid_Bot:
+class Team_Cryptid:
     """
     INSTRUCTIONS:
     1. Rename this class to your Team Name (e.g., TeamAlphaBot).
@@ -8,7 +8,7 @@ class Cryptid_Bot:
     3. Return exactly 'p' (Pass/Fold) or 'b' (Bet/Call).
     """
     def __init__(self):
-        self.name = "Cryptid_Bot" # Change this to your team name
+        self.name = "Team_Cryptid" # Change this to your team name
 
     def get_action(self, state) -> str:
         # Access state variables:
