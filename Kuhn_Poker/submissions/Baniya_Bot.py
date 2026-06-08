@@ -13,11 +13,11 @@ class CFR:
 
         for a in self.actions:
             if total_regret > 0:
-               strategy[a] = max(self.regret_sum[a],0.0)/total_regret
+                strategy[a] = max(self.regret_sum[a],0.0)/total_regret
             else:
                 strategy[a] = 1.0 / len(self.actions)
 
-        self.strategy_sum[a] += reach_probability * strategy[a]
+            self.strategy_sum[a] += reach_probability * strategy[a]
         return strategy
     
     def my_play_strategy(self) -> dict:
@@ -32,7 +32,7 @@ class NashCFRBot:
 
     def __init__(self):
         self.node_map: dict[str, CFR] = {}
-        self.train(100_000)
+        self.train(100000)
 
     def payoff(self, history, cards, perspective):
         p0_wins = self.Rank[cards[0]] > self.Rank[cards[1]]
@@ -74,13 +74,13 @@ class NashCFRBot:
         deck = ['J', 'Q', 'K']
         for _ in range(iterations):
             random.shuffle(deck)
-            self._cfr(deck[:2], '', 1.0, 1.0)
+            self.cfr(deck[:2], '', 1.0, 1.0)
  
-    def get_action(self, state) -> str:
+    def get_nash_action(self, state) -> str:
         info_set = state.my_card + state.history
         if info_set not in self.node_map:
             return 'b' if state.my_card == 'K' else 'p'
-        s = self.node_map[info_set].get_average_strategy()
+        s = self.node_map[info_set].my_play_strategy()
         return 'p' if random.random() < s['p'] else 'b'
     
 
@@ -112,35 +112,40 @@ class Baniya_Bot:
 
     def exploit(self, card: str, hist: str)-> str:
 
-        if self._opp_opens >= 50:
-            f_open = (self._opp_opens_bet / self._opp_opens)
+        if self.opp_opens >= 50:
+            f_open = (self.opp_opens_bet / self.opp_opens)
         else:
             f_open = None
 
-        if self._opp_calls >= 30:
-            f_call = (self._opp_calls_bet / self._opp_calls)
+        if self.opp_calls >= 30:
+            f_call = (self.opp_calls_bet / self.opp_calls)
         else:
-        f_call = None
+            f_call = None
  
-        # Confidence ramp: 0 → 1 over the first 200 hands
-        conf = min(self.hands / 200.0, 1.0)
+        confidence = min(self.hands / 200.0, 1.0)
  
-        # ── P2: opponent just opened with a bet ───────────────────────────
-        if hist == 'b' and f_open is not None and random.random() < conf:
+        if hist == 'b' and f_open is not None and random.random() < confidence:
             if f_open < 0.38:
-                # Tight: they nearly always have K when they bet
                 return 'b' if card == 'K' else 'p'
             if f_open > 0.52:
-                # Loose: many bluffs, so calling with Q is +EV
                 return 'b' if card in ('K', 'Q') else 'p'
  
-        # ── P1: we are opening, exploit based on opponent's calling tendency
-        if hist == '' and f_call is not None and random.random() < conf:
+        if hist == '' and f_call is not None and random.random() < confidence:
             if f_call < 0.25:
-                # Passive: they almost never call → steal with everything
                 return 'b'
             if f_call > 0.55:
-                # Calling station: don't bluff, value-bet only
                 return 'b' if card == 'K' else 'p'
  
         return None 
+    
+    def get_action(self, state) -> str:
+        card, hist = state.my_card, state.history
+ 
+        self.record_opponent_actions(hist)
+        self.hands += 1
+ 
+        exploit = self.exploit(card, hist)
+        if exploit is not None:
+            return exploit
+ 
+        return self.nash.get_nash_action(state)
