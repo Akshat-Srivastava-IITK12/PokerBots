@@ -64,7 +64,7 @@ def run_round_robin():
         leaderboard[b2.name] += p2_profit
         print(f"Match Complete: {b1.name} ({p1_profit}) vs {b2.name} ({p2_profit})")
 
-    print("\n--- FINAL LEADERBOARD (Total Net Profit) ---")
+    print("\n FINAL LEADERBOARD (Total Net Profit)")
     sorted_board = sorted(leaderboard.items(), key=lambda item: item[1], reverse=True)
     for rank, (name, profit) in enumerate(sorted_board, 1):
         print(f"{rank}. {name}: {profit} chips")
