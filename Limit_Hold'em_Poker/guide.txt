@@ -1,0 +1,63 @@
+Heads-Up Limit Hold'em: Tournament Guidelines
+Moving to Heads-Up Limit Hold'em means you are now dealing with billions of possible game states. You can no longer hardcode heuristics, and you definitely cannot traverse the entire game tree during a live match.
+
+To participate in this phase of the project, you must follow a strict split between offline training and online execution.
+
+During the tournament, your bot needs to make decisions in milliseconds. If you try to run your CFR loops or update regret tables live inside the arena, your code will time out and you will be disqualified.
+
+Your bot's "thinking" must happen on your own laptop before the tournament even starts. The bot you submit will just look up the answers it already learned.
+
+The Workflow
+1. Train Locally
+-Do not attempt to modify or run arena.py during your training phase.
+
+-Sync your github fork with the updated Repository.
+
+-Clone it on your local device.
+
+-Create a dedicated training script (e.g., train_cfr.py) on your machine.
+
+-Hook your CFR implementation directly into the HULHEEngine to simulate offline self-play.
+
+2. Abstract (heavily)
+If you try to map every single exact 52-card combination, your final strategy file will be in Gigabytes. You must use Card Abstraction (grouping similar hands into buckets) to compress your strategy space so it fits in a small file.
+
+3. Export your Strategy
+When your local training is done, have your script save your final average strategy as a .json file. It should simply map an abstracted game state to action probabilities.
+Example:
+
+''''''''''JSON''''''''
+{
+  "PreFlop_Premium_": {"r": 0.95, "c": 0.05},
+  "PreFlop_Trash_r": {"f": 1.0},
+  "PostFlop_TopPair_rc": {"r": 0.60, "c": 0.40}
+}
+'''''''''''''''''''''''
+
+4. The Tournament Agent
+Your actual submission file (the Python class the Arena will load) must be lightweight. It should:
+
+-Safely locate and load your .json file from the disk into memory during __init__.
+
+-Abstract the live HULHEGameState using the exact same bucketing logic you used in training.
+
+-Query the dictionary and return a probabilistically sampled action.
+
+-Include a fallback random.choice() mechanism to prevent crashing if the engine presents a state your bot did not encounter during training.
+
+-(Note: See submissions/mentee_cfr_template.py for the exact boilerplate code to handle file path resolution safely).
+
+For Pull Request:
+When you are ready, submit exactly two files to the submissions/ folder:
+
+your_team_agent.py
+
+your_team_strategy.json
+
+Do not include:
+
+Your training scripts.
+
+Any UI/Dashboard libraries (these will crash the tournament loader).
+
+Hardcoded file paths (use os.path.dirname(os.path.abspath(__file__)) to find your JSON so it works on the master machine).

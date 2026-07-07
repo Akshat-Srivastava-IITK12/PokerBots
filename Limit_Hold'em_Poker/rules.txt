@@ -1,0 +1,21 @@
+PokerBots: Heads-Up Limit Hold'em (HULHE) Ruleset
+
+The Stakes: The game is played at $2/$4 limits.
+
+Small Bet ($2): Applied during the Pre-Flop and Flop rounds.
+
+Big Bet ($4): Applied during the Turn and River rounds.
+
+The Blinds & Position (Heads-Up Specifics):
+
+Player 1 (The Small Blind): Posts $1 chip. They act first Pre-Flop, and last on the Flop, Turn, and River.
+
+Player 2 (The Big Blind): Posts $2 chips. They act last Pre-Flop, and first on the Flop, Turn, and River.
+
+The 4-Bet Cap:
+
+In any single betting round, the total number of bets and raises cannot exceed 4.
+
+Pre-Flop Example: The Big Blind's initial forced $2 post counts as Bet 1. The SB can Raise (Bet 2), the BB can 3-Bet (Bet 3), and the SB can Cap (Bet 4). After this, the BB may only Call or Fold.
+
+Showdown: The best 5-card combination out of the 2 hole cards and 5 community cards wins. Hand evaluation is handled internally via the treys library.

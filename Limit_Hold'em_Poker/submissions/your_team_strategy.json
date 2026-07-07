@@ -1,0 +1,52 @@
+{
+    "PreFlop_": {
+        "r": 0.30,
+        "c": 0.70
+    },
+    "PreFlop_r": {
+        "r": 0.15,
+        "c": 0.55,
+        "f": 0.30
+    },
+    "PreFlop_rr": {
+        "c": 0.60,
+        "f": 0.40
+    },
+    "PreFlop_rrr": {
+        "c": 0.80,
+        "f": 0.20
+    },
+    "PostFlop_rc": {
+        "r": 0.20,
+        "c": 0.80
+    },
+    "PostFlop_rcr": {
+        "r": 0.10,
+        "c": 0.50,
+        "f": 0.40
+    },
+    "PostFlop_rcrr": {
+        "c": 0.60,
+        "f": 0.40
+    },
+    "PostFlop_rcrc": {
+        "r": 0.20,
+        "c": 0.80
+    },
+    "PostFlop_rcrcr": {
+        "c": 0.40,
+        "f": 0.60
+    },
+    "PostFlop_rcrcrr": {
+        "c": 0.20,
+        "f": 0.80
+    },
+    "PostFlop_rcrcrc": {
+        "r": 0.10,
+        "c": 0.90
+    },
+    "PostFlop_rcrcrcr": {
+        "c": 0.30,
+        "f": 0.70
+    }
+}
